@@ -34,6 +34,7 @@
     "tabs",
     "identity",
     "identity.email",
+    "storage",
     "https://accounts.google.com/o/oauth2/token"
   ]
 }

@@ -41,3 +41,7 @@
 chrome.browserAction.onClicked.addListener(function() {
   chrome.tabs.create({ url: "index.html" });
 });
+
+chrome.storage.sync.get("email", function(result) {
+  console.log("RESULT: ", result.email);
+});

@@ -9,7 +9,13 @@
   },
   "oauth2": {
     "client_id": "1045180051797-lkd2vp5kqeptim8f25fv1ag7r9etvej0.apps.googleusercontent.com",
-    "scopes": [""]
+    "scopes": [
+      "https://www.googleapis.com/auth/plus.login",
+      "https://www.googleapis.com/auth/plus.me",
+      "https://www.googleapis.com/auth/userinfo.email",
+      "https://www.googleapis.com/auth/userinfo.profile",
+      "https://www.googleapis.com/auth/contacts.readonly"
+    ]
   },
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhPMC+pqpGh3cxc4SLZNiKl0z1FCAB5jznCROu6WoCGWiY30SOQAWwolbRTmUlEiVQ0Rxoe2DZZGqNLKc9mzcbcindPOfuZwijhcZSvsq1MdkyAUnUqeaM0DDF2UzKc5tEKBUI46W0oLzRPc4QwsWuoI2pOSKwpiX6IVgxn5sHC9tkKgYkGMyfINwSppKnJijoXRMkgLL53ulMWvZxnysn7IuCNe7ad1YW3EhWkh1YcMMePqI139dMDMeVOxjcWBaDywUwVosEaQNWiLnZr5msWOg2ay0sRFktHo9O3YhNBCfs5NY2KBJmh+SiP0rcIvo5OvlwF7bTLskB7j23ew7AwIDAQAB",
   "content_scripts": [
@@ -21,7 +27,13 @@
   ],
   "browser_action": {
     "default_icon": "tab-icon.png",
-    "default_title": "Have a good day"
+    "default_title": "Save For Later"
   },
-  "permissions": ["activeTab", "identity"]
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "identity",
+    "identity.email",
+    "https://accounts.google.com/o/oauth2/token"
+  ]
 }

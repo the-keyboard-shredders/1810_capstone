@@ -21,3 +21,7 @@
 //   title: Dom.title,
 //   content: Dom.content
 // });
+
+chrome.runtime.onMessage.addListener(function(request) {
+  console.log("EMAIL: ", request.email);
+});

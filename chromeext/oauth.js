@@ -44,6 +44,7 @@ window.onload = function() {
           chrome.storage.sync.set({ email: email });
           console.log("DATA", data);
           console.log("EMAIL", email);
+          window.close();
         });
     });
   });

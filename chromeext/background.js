@@ -6,27 +6,28 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
   console.log("bg dom", Dom);
 });
 
-let email = "";
+let userEmail = "";
 chrome.storage.sync.get("email", function(result) {
-  email = result.email;
-  console.log("EMAIL: ", email);
+  userEmail = result.email;
+  console.log("EMAIL: ", userEmail);
 });
 
 chrome.browserAction.onClicked.addListener(function() {
-  if (email !== "") {
+  if (userEmail !== "") {
     const title = Dom.title;
     const content = Dom.content;
     const queryJSON = JSON.stringify({
       query: `
-        mutation($title: String $content: String) {
-          addArticle(title: $title, content: $content){
+        mutation($title: String $content: String $userEmail: String) {
+          addArticle(title: $title, content: $content, userEmail: $userEmail){
             title
           }
         }
     `,
       variables: {
         title,
-        content
+        content,
+        userEmail
       }
     });
     fetch("http://headless-capstone-1810.herokuapp.com/", {

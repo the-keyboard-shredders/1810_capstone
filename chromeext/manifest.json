@@ -7,6 +7,17 @@
     "scripts": ["background.js"],
     "persistent": false
   },
+  "oauth2": {
+    "client_id": "",
+    "scopes": [
+      "https://www.googleapis.com/auth/plus.login",
+      "https://www.googleapis.com/auth/plus.me",
+      "https://www.googleapis.com/auth/userinfo.email",
+      "https://www.googleapis.com/auth/userinfo.profile",
+      "https://www.googleapis.com/auth/contacts.readonly"
+    ]
+  },
+  "key": "",
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
@@ -16,8 +27,14 @@
   ],
   "browser_action": {
     "default_icon": "tab-icon.png",
-    "default_title": "Have a good day"
+    "default_title": "Save For Later"
   },
-
-  "permissions": ["activeTab"]
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "identity",
+    "identity.email",
+    "storage",
+    "https://accounts.google.com/o/oauth2/token"
+  ]
 }

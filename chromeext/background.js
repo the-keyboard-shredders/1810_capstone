@@ -1,39 +1,48 @@
-const Dom = {};
+const dom = {};
 chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
-  Dom['url'] = msg.url;
-  Dom['title'] = msg.title;
-  Dom['content'] = msg.content;
-  console.log('bg dom', Dom);
+  dom.url = msg.url;
+  dom.title = msg.title;
+  dom.content = msg.content;
+});
+
+let userEmail = "";
+chrome.storage.sync.get("email", function(result) {
+  userEmail = result.email;
 });
 
 chrome.browserAction.onClicked.addListener(function() {
-  const title = Dom.title;
-  const content = Dom.content;
-  const queryJSON = JSON.stringify({
-    query: `
-        mutation($title: String $content: String) {
-          addArticle(title: $title, content: $content){
+  if (userEmail !== "") {
+    const title = dom.title;
+    const content = dom.content;
+    const queryJSON = JSON.stringify({
+      query: `
+        mutation($title: String $content: String $userEmail: String) {
+          addArticle(title: $title, content: $content, userEmail: $userEmail){
             title
           }
         }
     `,
-    variables: {
-      title,
-      content
-    }
-  });
-  fetch('http://headless-capstone-1810.herokuapp.com/', {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: queryJSON
-  })
-    .then(response => {
-      console.log('res to query\n\n\n', response.json());
-    })
-    .catch(err => {
-      console.log(err);
+      variables: {
+        title,
+        content,
+        userEmail
+      }
     });
+    fetch("http://headless-capstone-1810.herokuapp.com/", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: queryJSON
+    })
+      .then(response => {
+        console.log(response.json());
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  } else {
+    chrome.tabs.create({ url: "index.html" });
+  }
 });

@@ -1,21 +1,19 @@
-const Dom = {};
+const dom = {};
 chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
-  Dom["url"] = msg.url;
-  Dom["title"] = msg.title;
-  Dom["content"] = msg.content;
-  console.log("bg dom", Dom);
+  dom.url = msg.url;
+  dom.title = msg.title;
+  dom.content = msg.content;
 });
 
 let userEmail = "";
 chrome.storage.sync.get("email", function(result) {
   userEmail = result.email;
-  console.log("EMAIL: ", userEmail);
 });
 
 chrome.browserAction.onClicked.addListener(function() {
   if (userEmail !== "") {
-    const title = Dom.title;
-    const content = Dom.content;
+    const title = dom.title;
+    const content = dom.content;
     const queryJSON = JSON.stringify({
       query: `
         mutation($title: String $content: String $userEmail: String) {
@@ -39,7 +37,7 @@ chrome.browserAction.onClicked.addListener(function() {
       body: queryJSON
     })
       .then(response => {
-        console.log("res to query\n\n\n", response.json());
+        console.log(response.json());
       })
       .catch(err => {
         console.log(err);

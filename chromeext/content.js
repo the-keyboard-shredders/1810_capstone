@@ -1,4 +1,5 @@
 const grabDom = () => {
+  //This is currently only for medium.com
   const domHead = document.head;
   const domBody = document.body;
   const url = domHead.getElementsByTagName("link")[0].href;
@@ -14,10 +15,9 @@ const grabDom = () => {
   return { url, title, content };
 };
 
-const Dom = grabDom();
-console.log("content Dom", Dom);
+const dom = grabDom();
 chrome.runtime.sendMessage({
-  url: Dom.url,
-  title: Dom.title,
-  content: Dom.content
+  url: dom.url,
+  title: dom.title,
+  content: dom.content
 });

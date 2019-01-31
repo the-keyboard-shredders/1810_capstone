@@ -1,13 +1,13 @@
 //fires when user clicks extension icon
-chrome.browserAction.onClicked.addListener(function() {
+chrome.browserAction.onClicked.addListener(function () {
   const dom = {};
-  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     var myTabId = tabs[0].id;
     chrome.tabs.sendMessage(myTabId, 'message here');
   });
 
   //receives document info from content.js page (page user wants to keep)
-  chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
+  chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
     console.log('sent from here', sender.tab.id);
 
     dom.url = msg.url;
@@ -15,11 +15,12 @@ chrome.browserAction.onClicked.addListener(function() {
     dom.content = msg.content;
 
     //verify userId here
+    // all login is done server-side
     fetch('http://localhost:4000/auth/me')
-      .then(function(response) {
+      .then(function (response) {
         return response.text();
       })
-      .then(function(userId) {
+      .then(function (userId) {
         //userId = mongoDB id
         //checks whether you've been redirected to HTML page (our login screen)
         //if not then take websitedata and send it to our server
@@ -60,7 +61,7 @@ chrome.browserAction.onClicked.addListener(function() {
               console.log(err);
             });
         } else {
-          chrome.tabs.create({url: 'index.html'});
+          chrome.tabs.create({ url: 'index.html' });
         }
       });
   });

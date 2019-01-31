@@ -1,8 +1,8 @@
 const getDom = () => {
   //This is currently only for medium.com
-  const url = document.url;
+  const url = document.URL;
   const title = document.title;
-  const body = ducument.body.getElementsByClassName(
+  const body = document.body.getElementsByClassName(
     'postArticle-content js-postField js-notesSource js-trackPostScrolls'
   );
   const contentArr = [];

@@ -14,7 +14,7 @@ chrome.browserAction.onClicked.addListener(function() {
     dom.title = msg.title;
     dom.content = msg.content;
 
-    //verify userId
+    //verify userId here
     fetch('http://localhost:4000/auth/me')
       .then(function(response) {
         return response.text();

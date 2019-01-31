@@ -11,7 +11,7 @@ chrome.browserAction.onClicked.addListener(function() {
       return response.text();
     })
     .then(function(userId) {
-      if (userId !== undefined) {
+      if (!userId.includes('DOCTYPE')) {
         const url = dom.url;
         const title = dom.title;
         const content = dom.content;

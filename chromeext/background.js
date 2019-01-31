@@ -1,26 +1,21 @@
 //fires when user clicks extension icon
-chrome.browserAction.onClicked.addListener(function () {
+chrome.browserAction.onClicked.addListener(function() {
   const dom = {};
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    var myTabId = tabs[0].id;
-    chrome.tabs.sendMessage(myTabId, 'message here');
-  });
-
-  //receives document info from content.js page (page user wants to keep)
-  chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
-    console.log('sent from here', sender.tab.id);
-
-    dom.url = msg.url;
-    dom.title = msg.title;
-    dom.content = msg.content;
+  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+    let myTabId = tabs[0].id;
+    chrome.tabs.sendMessage(myTabId, {msg: 'message here'}, function(response) {
+      dom.url = response.url;
+      dom.title = response.title;
+      dom.content = response.content;
+    });
 
     //verify userId here
     // all login is done server-side
     fetch('http://localhost:4000/auth/me')
-      .then(function (response) {
+      .then(function(response) {
         return response.text();
       })
-      .then(function (userId) {
+      .then(function(userId) {
         //userId = mongoDB id
         //checks whether you've been redirected to HTML page (our login screen)
         //if not then take websitedata and send it to our server
@@ -45,7 +40,6 @@ chrome.browserAction.onClicked.addListener(function () {
             }
           });
           //posting our article data to our DB
-          console.log(dom);
           fetch('http://localhost:4000/', {
             method: 'POST',
             headers: {
@@ -61,7 +55,7 @@ chrome.browserAction.onClicked.addListener(function () {
               console.log(err);
             });
         } else {
-          chrome.tabs.create({ url: 'index.html' });
+          chrome.tabs.create({url: 'index.html'});
         }
       });
   });

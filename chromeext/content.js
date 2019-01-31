@@ -3,7 +3,7 @@ const getDom = () => {
   const url = document.URL;
   const title = document.title;
   const body = document.body.getElementsByClassName(
-    'postArticle-content js-postField js-notesSource js-trackPostScrolls'
+    'postArticle-content js-postField'
   );
   const contentArr = [];
   for (let i = 0; i < body.length; i++) {
@@ -13,10 +13,9 @@ const getDom = () => {
   return {url, title, content};
 };
 
-chrome.runtime.onMessage.addListener(function(msg) {
-  console.log('we received this message');
+chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
   const dom = getDom();
-  chrome.runtime.sendMessage({
+  sendResponse({
     url: dom.url,
     title: dom.title,
     content: dom.content

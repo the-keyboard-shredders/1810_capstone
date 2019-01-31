@@ -5,13 +5,17 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
   dom.content = msg.content;
 });
 
-let userEmail = "";
-chrome.storage.sync.get("email", function(result) {
-  userEmail = result.email;
-});
+let userId = '';
+fetch('http://localhost:4000/auth/me')
+  .then(function(response) {
+    return response.text();
+  })
+  .then(function(data) {
+    userId = data;
+  });
 
 chrome.browserAction.onClicked.addListener(function() {
-  if (userEmail !== "") {
+  if (userId !== '') {
     const title = dom.title;
     const content = dom.content;
     const queryJSON = JSON.stringify({
@@ -28,11 +32,11 @@ chrome.browserAction.onClicked.addListener(function() {
         userEmail
       }
     });
-    fetch("http://headless-capstone-1810.herokuapp.com/", {
-      method: "POST",
+    fetch('http://headless-capstone-1810.herokuapp.com/', {
+      method: 'POST',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
       },
       body: queryJSON
     })
@@ -43,6 +47,6 @@ chrome.browserAction.onClicked.addListener(function() {
         console.log(err);
       });
   } else {
-    chrome.tabs.create({ url: "index.html" });
+    chrome.tabs.create({url: 'index.html'});
   }
 });

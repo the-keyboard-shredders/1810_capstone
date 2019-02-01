@@ -18,15 +18,15 @@ function saveArticle() {
       .then(function(response) {
         return response.text();
       })
-      .then(function(userId) {
+      .then(function(googleId) {
         const url = dom.url;
         const title = dom.title;
         const content = dom.content;
         //create input query in order to input data to our DB
         const queryJSON = JSON.stringify({
           query: `
-            mutation($userId: String $url: String $title: String $content: String) {
-              addArticle(userId: $userId, url: $url, title: $title, content: $content){
+            mutation($googleId: String! $url: String! $title: String! $content: String!) {
+              addArticle(userId: $googleId, url: $url, title: $title, content: $content){
                 title
               }
             }
@@ -35,7 +35,7 @@ function saveArticle() {
             url,
             title,
             content,
-            userId
+            googleId
           }
         });
         //posting our article data to our DB

@@ -6,8 +6,8 @@ window.onload = function() {
     .then(function(response) {
       return response.text();
     })
-    .then(function(userId) {
-      if (userId.includes('DOCTYPE')) {
+    .then(function(googleId) {
+      if (googleId.includes('DOCTYPE')) {
         saveBtn.setAttribute('disabled', true);
         logoutBtn.setAttribute('disabled', true);
       } else {

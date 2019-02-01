@@ -3,7 +3,9 @@ function saveArticle() {
   const dom = {};
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     let myTabId = tabs[0].id;
-    chrome.tabs.sendMessage(myTabId, {msg: 'message here'}, function(response) {
+    chrome.tabs.sendMessage(myTabId, {getArticle: 'get article'}, function(
+      response
+    ) {
       dom.url = response.url;
       dom.title = response.title;
       dom.content = response.content;
@@ -16,47 +18,41 @@ function saveArticle() {
         return response.text();
       })
       .then(function(userId) {
-        //userId = mongoDB id
-        //checks whether you've been redirected to HTML page (our login screen)
-        //if not then take websitedata and send it to our server
-        if (!userId.includes('DOCTYPE')) {
-          const url = dom.url;
-          const title = dom.title;
-          const content = dom.content;
-          //create input query in order to input data to our DB
-          const queryJSON = JSON.stringify({
-            query: `
+        const url = dom.url;
+        const title = dom.title;
+        const content = dom.content;
+        //create input query in order to input data to our DB
+        const queryJSON = JSON.stringify({
+          query: `
             mutation($userId: String $url: String $title: String $content: String) {
               addArticle(userId: $userId, url: $url, title: $title, content: $content){
                 title
               }
             }
           `,
-            variables: {
-              url,
-              title,
-              content,
-              userId
-            }
-          });
-          //posting our article data to our DB
-          fetch('http://localhost:4000/', {
-            method: 'POST',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json'
-            },
-            body: queryJSON
+          variables: {
+            url,
+            title,
+            content,
+            userId
+          }
+        });
+        //posting our article data to our DB
+        fetch('http://localhost:4000/', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: queryJSON
+        })
+          .then(response => {
+            console.log(response.json());
+            chrome.tabs.sendMessage(myTabId, {saved: 'Saved!'});
           })
-            .then(response => {
-              console.log(response.json());
-            })
-            .catch(err => {
-              console.log(err);
-            });
-        } else {
-          chrome.tabs.create({url: 'index.html'});
-        }
+          .catch(err => {
+            console.log(err);
+          });
       });
   });
 }

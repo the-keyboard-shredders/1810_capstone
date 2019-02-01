@@ -1,5 +1,5 @@
 //fires when user clicks extension icon
-chrome.browserAction.onClicked.addListener(function() {
+function saveArticle() {
   const dom = {};
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     let myTabId = tabs[0].id;
@@ -59,4 +59,4 @@ chrome.browserAction.onClicked.addListener(function() {
         }
       });
   });
-});
+}

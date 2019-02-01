@@ -23,5 +23,7 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
     });
   } else if (msg.saved) {
     alert(msg.saved);
+  } else if (msg.error) {
+    alert(msg.error);
   }
 });

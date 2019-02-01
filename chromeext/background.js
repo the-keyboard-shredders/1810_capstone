@@ -1,4 +1,4 @@
-//fires when user clicks extension icon
+//fires when user clicks save article button
 function saveArticle() {
   const dom = {};
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
@@ -6,13 +6,14 @@ function saveArticle() {
     chrome.tabs.sendMessage(myTabId, {getArticle: 'get article'}, function(
       response
     ) {
-      dom.url = response.url;
-      dom.title = response.title;
-      dom.content = response.content;
+      if (response) {
+        dom.url = response.url;
+        dom.title = response.title;
+        dom.content = response.content;
+      } else {
+        console.log('Invalid Response');
+      }
     });
-
-    //verify userId here
-    // all login is done server-side
     fetch('http://localhost:4000/auth/me')
       .then(function(response) {
         return response.text();

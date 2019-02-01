@@ -26,7 +26,7 @@ function saveArticle() {
         const queryJSON = JSON.stringify({
           query: `
             mutation($googleId: String! $url: String! $title: String! $content: String!) {
-              addArticle(userId: $googleId, url: $url, title: $title, content: $content){
+              addArticle(googleId: $googleId, url: $url, title: $title, content: $content){
                 title
               }
             }

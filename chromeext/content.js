@@ -1,5 +1,5 @@
 const getDom = () => {
-  //This is currently only for medium.comq
+  //This is currently only for medium.com
   const url = document.URL;
   const title = document.title;
   const body = document.body.getElementsByClassName(
@@ -14,10 +14,14 @@ const getDom = () => {
 };
 
 chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
-  const dom = getDom();
-  sendResponse({
-    url: dom.url,
-    title: dom.title,
-    content: dom.content
-  });
+  if (msg.getArticle) {
+    const dom = getDom();
+    sendResponse({
+      url: dom.url,
+      title: dom.title,
+      content: dom.content
+    });
+  } else if (msg.saved) {
+    alert(msg.saved);
+  }
 });

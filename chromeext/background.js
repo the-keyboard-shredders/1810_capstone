@@ -1,8 +1,8 @@
 //fires when user clicks save article button
 function saveArticle() {
-  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     let myTabId = tabs[0].id;
-    chrome.tabs.sendMessage(myTabId, {getArticle: 'get article'}, function(
+    chrome.tabs.sendMessage(myTabId, { getArticle: 'get article' }, function (
       response
     ) {
       if (!response) {
@@ -18,11 +18,11 @@ function saveArticle() {
         dom.url = response.url;
         dom.title = response.title;
         dom.content = response.content;
-        fetch('http://localhost:4000/auth/me')
-          .then(function(response) {
+        fetch('http://headless-capstone-1810.herokuapp.com/auth/me')
+          .then(function (response) {
             return response.text();
           })
-          .then(function(googleId) {
+          .then(function (googleId) {
             const url = dom.url;
             const title = dom.title;
             const content = dom.content;
@@ -43,7 +43,7 @@ function saveArticle() {
               }
             });
             //posting our article data to our DB
-            fetch('http://localhost:4000/', {
+            fetch('http://headless-capstone-1810.herokuapp.com/', {
               method: 'POST',
               headers: {
                 Accept: 'application/json',
@@ -53,7 +53,7 @@ function saveArticle() {
             })
               .then(response => {
                 if (response.status === 200) {
-                  chrome.tabs.sendMessage(myTabId, {saved: 'Saved!'});
+                  chrome.tabs.sendMessage(myTabId, { saved: 'Saved!' });
                 }
               })
               .catch(err => {

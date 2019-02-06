@@ -1,4 +1,6 @@
+
 //config object houses websites and the classes that contain their text
+
 const configFile = [
   {searchString: 'medium.com', class: 'postArticle-content js-postField'},
   {searchString: 'bloomberg', tag: 'p'},
@@ -52,6 +54,8 @@ class Scraped {
     }, '');
 
     return joinedBody;
+
+
   }
 }
 

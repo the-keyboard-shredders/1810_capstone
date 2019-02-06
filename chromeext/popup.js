@@ -3,7 +3,8 @@ window.onload = function () {
   const saveBtn = document.getElementById('save');
   const logoutBtn = document.getElementById('logout');
   fetch('https://headless-capstone-1810.herokuapp.com/auth/me')
-    .then(function (response) {
+
+    .then(function(response) {
       return response.text();
     })
     .then(function (googleId) {

@@ -109,11 +109,11 @@ class Scraped {
     // returns an array of all dom.body elements that match the identifier
     let tempBody;
     if (this.articleType.class) {
-      tempBody = document.body.getElementsByClassName(this.articleType.class);
+      tempBody = Array.from(document.body.getElementsByClassName(this.articleType.class));
     } else if (this.articleType.tag) {
-      tempBody = document.body.getElementsByTagName(this.articleType.tag);
+      tempBody = Array.from(document.body.getElementsByTagName(this.articleType.tag));
     }
-
+    console.log(tempBody)
     // reduces tempBody array into string of only text separated by two line breaks
     // this is the content wished to display
     const joinedBody = tempBody.reduce((accumulator, current) => {
@@ -165,8 +165,8 @@ class Scraped {
 chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
   if (msg.getArticle) {
     // const dom = getDom();
-    // const scrapedSite = new Scraped(document.URL, document.body, document.title);
-    sendResponse(new Scraped(document.URL, document.body, document.title));
+    const scrapedSite = new Scraped(document.URL, document.body, document.title);
+    sendResponse(scrapedSite);
   } else if (msg.saved) {
     alert(msg.saved);
   } else if (msg.error) {

@@ -1,4 +1,6 @@
-//config file houses websites and the classes that contain their text
+
+//config object houses websites and the classes that contain their text
+
 const configFile = [
   {searchString: 'medium.com', class: 'postArticle-content js-postField'},
   {searchString: 'bloomberg', tag: 'p'},
@@ -8,54 +10,63 @@ const configFile = [
   {searchString: 'cnn.com', class: 'zn-body__paragraph'}
 ];
 
-//function that parses configFile for matching url
-//returns identifier used to parse doc
-//default return is <p>
-const parseConfigFile = url => {
-  for (let i = 0; i < configFile.length; i++) {
-    let result = url.search(configFile[i].searchString);
-    if (result >= 0) {
-      return configFile[i];
+class Scraped {
+  constructor(url, body, title) {
+    this.url = url;
+    this.body = body;
+    this.title = title;
+    this.articleType = this.indentifier();
+    this.content = this.getBody();
+  }
+
+  // specifies identifiers (by referencing configFile) used to scrape text
+  indentifier() {
+    let result = configFile.filter(address =>
+      this.url.includes(address.searchString)
+    );
+
+    if (result.length === 1) {
+      return result[0];
+    } else {
+      return configFile[0];
     }
   }
-  return {tag: 'p'};
-};
 
-const getDom = () => {
-  //This is currently only for medium.com
-  //must reconfigure this
-  const url = document.URL;
-  const title = document.title;
-  let body = '';
+  // scrapes document.body using identifiers of selected configFile (class/tag/etc)
+  getBody() {
+    // returns an array of all dom.body elements that match the identifier
+    let tempBody;
+    if (this.articleType.class) {
+      tempBody = Array.from(
+        document.body.getElementsByClassName(this.articleType.class)
+      );
+    } else if (this.articleType.tag) {
+      tempBody = Array.from(
+        document.body.getElementsByTagName(this.articleType.tag)
+      );
+    }
 
-  //scan for url
-  const whichID = parseConfigFile(url);
+    // reduces tempBody array into string of only text separated by two line breaks
+    // this is the content wished to display
+    const joinedBody = tempBody.reduce((accumulator, current) => {
+      accumulator += `${current.innerText} \n\n`;
+      return accumulator;
+    }, '');
 
-  //assign body a class or tag to search for text
-  if (whichID.class) {
-    body = document.body.getElementsByClassName(whichID.class);
-  } else if (whichID.tag) {
-    body = document.body.getElementsByTagName(whichID.tag);
+    return joinedBody;
+
+
   }
-
-  console.log('body here', body);
-
-  const contentArr = [];
-  for (let i = 0; i < body.length; i++) {
-    contentArr.push(body[i].innerText);
-  }
-  const content = contentArr.join('\n');
-  return {url, title, content};
-};
+}
 
 chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
   if (msg.getArticle) {
-    const dom = getDom();
-    sendResponse({
-      url: dom.url,
-      title: dom.title,
-      content: dom.content
-    });
+    const scrapedSite = new Scraped(
+      document.URL,
+      document.body,
+      document.title
+    );
+    sendResponse(scrapedSite);
   } else if (msg.saved) {
     alert(msg.saved);
   } else if (msg.error) {

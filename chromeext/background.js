@@ -1,3 +1,4 @@
+//
 //fires when user clicks save article button
 function saveArticle() {
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {

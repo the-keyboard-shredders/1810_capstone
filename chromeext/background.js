@@ -18,7 +18,7 @@ function saveArticle() {
         dom.url = response.url;
         dom.title = response.title;
         dom.content = response.content;
-        fetch('http://headless-capstone-1810.herokuapp.com/auth/me')
+        fetch('https://headless-capstone-1810.herokuapp.com/auth/me')
           .then(function (response) {
             return response.text();
           })
@@ -43,7 +43,7 @@ function saveArticle() {
               }
             });
             //posting our article data to our DB
-            fetch('http://headless-capstone-1810.herokuapp.com/', {
+            fetch('https://headless-capstone-1810.herokuapp.com', {
               method: 'POST',
               headers: {
                 Accept: 'application/json',

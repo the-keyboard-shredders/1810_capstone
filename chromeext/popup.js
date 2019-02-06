@@ -2,7 +2,7 @@ window.onload = function () {
   const loginBtn = document.getElementById('login');
   const saveBtn = document.getElementById('save');
   const logoutBtn = document.getElementById('logout');
-  fetch('http://headless-capstone-1810.herokuapp.com/auth/me')
+  fetch('https://headless-capstone-1810.herokuapp.com/auth/me')
     .then(function (response) {
       return response.text();
     })
@@ -16,7 +16,7 @@ window.onload = function () {
     });
   loginBtn.addEventListener('click', function () {
     chrome.tabs.create({
-      url: 'http://headless-capstone-1810.herokuapp.com/auth/login'
+      url: 'https://headless-capstone-1810.herokuapp.com/auth/login'
     });
   });
   saveBtn.addEventListener('click', function () {
@@ -26,7 +26,7 @@ window.onload = function () {
   });
   logoutBtn.addEventListener('click', function () {
     chrome.tabs.create({
-      url: 'http://headless-capstone-1810.herokuapp.com/auth/logout'
+      url: 'https://headless-capstone-1810.herokuapp.com/auth/logout'
     });
   });
 };

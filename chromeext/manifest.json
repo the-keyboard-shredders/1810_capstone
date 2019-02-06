@@ -28,6 +28,6 @@
   "permissions": [
     "activeTab",
     "tabs",
-    "http://headless-capstone-1810.herokuapp.com/auth/me"
+    "https://headless-capstone-1810.herokuapp.com/auth/me"
   ]
 }

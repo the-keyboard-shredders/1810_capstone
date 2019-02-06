@@ -1,8 +1,9 @@
+//
 //fires when user clicks save article button
 function saveArticle() {
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     let myTabId = tabs[0].id;
-    chrome.tabs.sendMessage(myTabId, { getArticle: 'get article' }, function (
+    chrome.tabs.sendMessage(myTabId, {getArticle: 'get article'}, function(
       response
     ) {
       if (!response) {
@@ -19,10 +20,10 @@ function saveArticle() {
         dom.title = response.title;
         dom.content = response.content;
         fetch('https://headless-capstone-1810.herokuapp.com/auth/me')
-          .then(function (response) {
+          .then(function(response) {
             return response.text();
           })
-          .then(function (googleId) {
+          .then(function(googleId) {
             const url = dom.url;
             const title = dom.title;
             const content = dom.content;
@@ -53,7 +54,7 @@ function saveArticle() {
             })
               .then(response => {
                 if (response.status === 200) {
-                  chrome.tabs.sendMessage(myTabId, { saved: 'Saved!' });
+                  chrome.tabs.sendMessage(myTabId, {saved: 'Saved!'});
                 }
               })
               .catch(err => {

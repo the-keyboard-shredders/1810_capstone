@@ -4,10 +4,6 @@ A platform that allows users to save articles with a chrome extension online wit
 ## Motivation
 Many people sit through their long commutes on the subway without being able to use their phones because there is no service. People can use this time to catch up on their daily internet readings, and Save for Later can allow them to do so while offline. 
 
-## Screenshots
-![Image of SFL]
-(https://github.com/the-keyboard-shredders/chrome_extension/tree/master/chromeext/saveforlater.png)
-
 ## Tech/framework used
 <b>Built with</b>
 -Javascript
